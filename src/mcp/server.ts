@@ -1,6 +1,6 @@
 import express from "express";
 import { db } from "../db/database";
-import { getAgentBalance, verifyPayment } from "../blockchain/cronos";
+import { getAgentBalance, verifyPayment, executePayment } from "../blockchain/cronos";
 
 const router = express.Router();
 
@@ -47,6 +47,13 @@ router.post("/mcp", async (req, res) => {
                         res.json({ status: "ok", explanation: "Transaction not found or error checking on-chain." });
                     }
                 });
+                break;
+            }
+
+            case "make_payment": {
+                const { to, amount, description } = params;
+                const result = await executePayment(to, amount, description);
+                res.json({ status: "ok", data: result });
                 break;
             }
 

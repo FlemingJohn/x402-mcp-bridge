@@ -6,7 +6,7 @@ dotenv.config();
 
 export const provider = new JsonRpcProvider(process.env.CRONOS_RPC_URL);
 const privateKey = process.env.PRIVATE_KEY;
-const signer = (privateKey && privateKey !== "0000000000000000000000000000000000000000000000000000000000000000")
+export const signer = (privateKey && privateKey !== "0000000000000000000000000000000000000000000000000000000000000000")
     ? new Wallet(privateKey, provider)
     : undefined;
 
@@ -15,6 +15,50 @@ export const facilitatorClient = new Facilitator({
     baseUrl: "https://evm-t3.cronos.org",
     network: CronosNetwork.CronosTestnet
 });
+
+/**
+ * Executes a full X402 payment flow.
+ * 1. Generates EIP-3009 signed header.
+ * 2. Generates payment requirements.
+ * 3. Verifies and settles the payment via the facilitator.
+ */
+export const executePayment = async (to: string, amount: string, description: string) => {
+    if (!signer) {
+        throw new Error("Signer (PRIVATE_KEY) not configured or invalid.");
+    }
+
+    try {
+        // 1) Generate Header (requires signer)
+        const header = await facilitatorClient.generatePaymentHeader({
+            to,
+            value: amount, // base units
+            signer,
+        });
+
+        // 2) Generate Requirements
+        const reqs = facilitatorClient.generatePaymentRequirements({
+            payTo: to,
+            description,
+            maxAmountRequired: amount,
+        });
+
+        // 3) Build and Verify
+        const body = facilitatorClient.buildVerifyRequest(header, reqs);
+        const verify = await facilitatorClient.verifyPayment(body);
+
+        if (!verify.isValid) {
+            throw new Error(`X402 Verification failed: ${verify.invalidReason}`);
+        }
+
+        // 4) Settle
+        const settle = await facilitatorClient.settlePayment(body);
+        return settle;
+    } catch (error: any) {
+        console.error("Payment execution error:", error.message);
+        throw error;
+    }
+};
+
 /**
  * Retrieves the agent's balance on Cronos.
  * This includes the native TCRO balance and could be extended to include

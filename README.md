@@ -59,18 +59,21 @@ Retrieves indexed historical payments for an agent.
 }
 ```
 
-### Tool: `explain_failure`
-Provides a human-readable explanation for a failed transaction.
+### Tool: `make_payment`
+Orchestrates a full X402 payment flow (Authorization -> Settlement).
 
 **Request**:
 ```json
 {
-  "tool": "explain_failure",
+  "tool": "make_payment",
   "params": {
-    "tx_hash": "0xTxHashHere"
+    "to": "0xRecipientAddress",
+    "amount": "1000000",
+    "description": "Payment for services"
   }
 }
 ```
+*Note: Amount is in base units (e.g., 1 USDCe = 1,000,000).*
 
 ## Project Structure
 - `src/blockchain/`: Ethers.js and Facilitator SDK integration.
