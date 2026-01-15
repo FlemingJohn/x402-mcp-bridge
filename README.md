@@ -75,9 +75,26 @@ Orchestrates a full X402 payment flow (Authorization -> Settlement).
 ```
 *Note: Amount is in base units (e.g., 1 USDCe = 1,000,000).*
 
+## AI Agent Client (Gemini-Powered)
+
+The bridge includes a native AI Agent client that uses **Google Gemini** with tool-calling to interact with the x402-MCP bridge.
+
+### 1. Configuration
+Add your Gemini API key to `.env`:
+```env
+GEMINI_API_KEY=AIza...
+```
+
+### 2. Run the Agent
+You can ask the agent any question about your Cronos wallet or payments in natural language:
+```bash
+node_modules\.bin\ts-node.cmd src\agent\agent.ts "What is my balance for address 0x0...?"
+```
+
 ## Project Structure
 - `src/blockchain/`: Ethers.js and Facilitator SDK integration.
 - `src/db/`: SQLite persistence for local data indexing.
 - `src/indexer/`: On-chain event monitoring logic.
 - `src/mcp/`: MCP endpoint and tool routing.
+- `src/agent/`: Gemini-powered AI agent client.
 - `data/`: Local storage for the SQLite database (auto-created).
