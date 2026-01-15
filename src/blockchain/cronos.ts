@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const provider = new JsonRpcProvider(process.env.CRONOS_RPC_URL);
+export const provider = new JsonRpcProvider(process.env.CRONOS_RPC_URL);
 const privateKey = process.env.PRIVATE_KEY;
 const signer = (privateKey && privateKey !== "0000000000000000000000000000000000000000000000000000000000000000")
     ? new Wallet(privateKey, provider)
@@ -15,16 +15,36 @@ export const facilitatorClient = new Facilitator({
     baseUrl: "https://evm-t3.cronos.org",
     network: CronosNetwork.CronosTestnet
 });
-// Note: In a real scenario, we'll use the provider/signer for Ethers calls 
-// and the Facilitator for X402 specific API calls.
-
+/**
+ * Retrieves the agent's balance on Cronos.
+ * This includes the native TCRO balance and could be extended to include
+ * supported X402 tokens like USDC.
+ */
 export const getAgentBalance = async (address: string) => {
     const balance = await provider.getBalance(address);
-    return balance.toString();
+    return {
+        native: balance.toString(),
+        symbol: "TCRO",
+        timestamp: new Date().toISOString()
+    };
 };
 
-// Placeholder for verification logic
+// Comprehensive verification logic
 export const verifyPayment = async (txHash: string) => {
-    const tx = await provider.getTransactionReceipt(txHash);
-    return tx;
+    try {
+        const receipt = await provider.getTransactionReceipt(txHash);
+        if (!receipt) return { status: "not_found", message: "Transaction receipt not available yet." };
+
+        const success = receipt.status === 1;
+        return {
+            status: success ? "success" : "failed",
+            blockNumber: receipt.blockNumber,
+            confirmations: await receipt.confirmations(),
+            from: receipt.from,
+            to: receipt.to,
+            gasUsed: receipt.gasUsed.toString()
+        };
+    } catch (error: any) {
+        return { status: "error", message: error.message };
+    }
 };

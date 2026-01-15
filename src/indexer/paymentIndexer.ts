@@ -1,16 +1,46 @@
-import { facilitatorClient } from "../blockchain/cronos";
+import { facilitatorClient, provider } from "../blockchain/cronos";
 import { db } from "../db/database";
+import { Interface } from "ethers";
+
+// x402 Facilitator Event ABI snippet
+const X402_ABI = [
+    "event PaymentExecuted(address indexed agentId, address indexed sender, uint256 amount, string currency, string reason, bytes32 indexed txHash)"
+];
 
 export const startIndexing = () => {
     console.log("Starting payment indexer...");
 
-    // In a real implementation, we would use facilitatorClient.contract.on(...)
-    // For this bridge, we'll poll or listen for generic x402 events.
+    const facilitatorAddress = process.env.X402_FACILITATOR_ADDRESS;
+    if (!facilitatorAddress || facilitatorAddress === "0x0000000000000000000000000000000000000000") {
+        console.warn("X402_FACILITATOR_ADDRESS is not configured. Indexer will not start.");
+        return;
+    }
 
-    // Placeholder for event listener logic
-    // facilitatorClient.on("PaymentExecuted", (event) => { ... })
+    const iface = new Interface(X402_ABI);
 
-    console.log("Indexer listening for x402 events on Cronos...");
+    // Listening for logs on the facilitator contract
+    provider.on({ address: facilitatorAddress }, (log: any) => {
+        try {
+            const parsedLog = iface.parseLog(log);
+            if (parsedLog && parsedLog.name === "PaymentExecuted") {
+                const { agentId, sender, amount, currency, reason, txHash } = parsedLog.args;
+                savePayment({
+                    txHash,
+                    agentId,
+                    amount: amount.toString(),
+                    currency,
+                    status: "success",
+                    reason,
+                    metadata: { sender }
+                });
+                console.log(`Indexed new x402 payment: ${txHash}`);
+            }
+        } catch (e) {
+            // Log might not be for this event, ignore
+        }
+    });
+
+    console.log(`Indexer listening for x402 events on ${facilitatorAddress}...`);
 };
 
 export const savePayment = (payment: any) => {

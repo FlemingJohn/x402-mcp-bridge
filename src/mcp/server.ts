@@ -1,6 +1,6 @@
 import express from "express";
 import { db } from "../db/database";
-import { getAgentBalance } from "../blockchain/cronos";
+import { getAgentBalance, verifyPayment } from "../blockchain/cronos";
 
 const router = express.Router();
 
@@ -20,19 +20,32 @@ router.post("/mcp", async (req, res) => {
 
             case "get_agent_balance": {
                 const { address } = params;
-                const balance = await getAgentBalance(address);
-                res.json({ status: "ok", balance });
+                const balanceData = await getAgentBalance(address);
+                res.json({ status: "ok", ...balanceData });
                 break;
             }
 
             case "explain_failure": {
                 const { tx_hash } = params;
-                db.get("SELECT reason FROM x402_payments WHERE tx_hash = ? AND status = 'failed'", [tx_hash], (err: any, row: any) => {
+                db.get("SELECT reason FROM x402_payments WHERE tx_hash = ? AND status = 'failed'", [tx_hash], async (err: any, row: any) => {
                     if (err) return res.status(500).json({ error: err.message });
-                    res.json({
-                        status: "ok",
-                        explanation: row ? `Reason: ${row.reason}` : "No failed transaction found with this hash."
-                    });
+
+                    if (row) {
+                        return res.json({ status: "ok", explanation: `Reason: ${row.reason}` });
+                    }
+
+                    // Fallback: Check on-chain for verification
+                    const verification = await verifyPayment(tx_hash);
+                    if (verification.status === "failed") {
+                        res.json({
+                            status: "ok",
+                            explanation: "Transaction failed on Cronos. This often happens due to insufficient allowance or gas. Check explorer for details."
+                        });
+                    } else if (verification.status === "success") {
+                        res.json({ status: "ok", explanation: "Transaction actually succeeded on-chain. Database may be out of sync." });
+                    } else {
+                        res.json({ status: "ok", explanation: "Transaction not found or error checking on-chain." });
+                    }
                 });
                 break;
             }
