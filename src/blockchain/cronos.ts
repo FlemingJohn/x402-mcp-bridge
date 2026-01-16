@@ -12,9 +12,11 @@ export const signer = (privateKey && privateKey !== "000000000000000000000000000
 
 // The sdk Facilitator constructor takes ClientConfig & { network: CronosNetwork }
 export const facilitatorClient = new Facilitator({
-    baseUrl: "https://evm-t3.cronos.org",
+    baseUrl: "https://facilitator.cronoslabs.org",
     network: CronosNetwork.CronosTestnet
 });
+
+export const USDC_TESTNET_ADDRESS = "0xc01efAaF7C5C61bEbFAeb358E1161b537b8bC0e0";
 
 /**
  * Executes a full X402 payment flow.
