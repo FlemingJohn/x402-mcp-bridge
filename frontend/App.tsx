@@ -6,10 +6,12 @@ import { Footer } from './components/layout/Footer';
 import { Hero } from './components/sections/Hero';
 import { FeaturesGrid } from './components/sections/FeaturesGrid';
 
+import { ToolsSection } from './components/sections/ToolsSection';
+
 const NAV_LINKS = [
   { name: 'Documentation', id: 'docs', href: '#' },
   { name: 'GitHub', id: 'github', href: 'https://github.com/FlemingJohn/x402-mcp-bridge' },
-  { name: 'Tools', id: 'tools', href: '#features' }
+  { name: 'Tools', id: 'tools', href: '#tools' }
 ];
 
 const App: React.FC = () => {
@@ -26,6 +28,7 @@ const App: React.FC = () => {
           isTerminalActive={isTerminalActive}
         />
         <FeaturesGrid />
+        <ToolsSection />
       </main>
 
       <Footer />
