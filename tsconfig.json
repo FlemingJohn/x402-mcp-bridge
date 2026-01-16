@@ -10,5 +10,9 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "sourceMap": true
-  }
+  },
+  "exclude": [
+    "frontend",
+    "node_modules"
+  ]
 }
