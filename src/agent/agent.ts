@@ -65,7 +65,7 @@ async function startGeminiAgent(userPrompt: string) {
         response = result.response;
     }
 
-    console.log(`\nGemini:\n${response.text()}\n`);
+    console.log(`\nCronos Agent:\n${response.text()}\n`);
 }
 
 // Simple CLI entry point

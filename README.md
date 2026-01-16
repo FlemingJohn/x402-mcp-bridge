@@ -77,24 +77,35 @@ Orchestrates a full X402 payment flow (Authorization -> Settlement).
 
 ## AI Agent Client (Gemini-Powered)
 
-The bridge includes a native AI Agent client that uses **Google Gemini** with tool-calling to interact with the x402-MCP bridge.
+The bridge includes a native **"Cronos Agent"** client that uses **Google Gemini** with tool-calling to interact with the x402-MCP bridge.
 
 ### 1. Configuration
-Add your Gemini API key to `.env`:
+Add your Gemini API key and Wallet Private Key to `.env`:
 ```env
 GEMINI_API_KEY=AIza...
+PRIVATE_KEY=0x...
 ```
 
 ### 2. Run the Agent
-You can ask the agent any question about your Cronos wallet or payments in natural language:
+The agent automatically detects your wallet address from the private key, so you can speak naturally:
 ```bash
-node_modules\.bin\ts-node.cmd src\agent\agent.ts "What is my balance for address 0x0...?"
+npm run agent "What is my balance?"
 ```
+*(Note for Windows: `node_modules\.bin\ts-node.cmd src\agent\agent.ts "What is my balance?"`)*
+
+### Key Features
+- **Auto-Context**: Knows your wallet address and the Faucet URL (`https://cronos.org/faucet`).
+- **Dynamic Model Resolution**: Automatically finds the best Gemini model (Flash/Pro/Lite) for your API key.
+- **Rate Limit Handling**: Robust exponential backoff prevents `429` errors on free tier accounts.
 
 ## Project Structure
 - `src/blockchain/`: Ethers.js and Facilitator SDK integration.
 - `src/db/`: SQLite persistence for local data indexing.
 - `src/indexer/`: On-chain event monitoring logic.
 - `src/mcp/`: MCP endpoint and tool routing.
-- `src/agent/`: Gemini-powered AI agent client.
+- `src/agent/`: **Modular AI Agent Client**
+    - `agent.ts`: Main orchestrator and entry point.
+    - `tools.ts`: Tool (function) definitions for Gemini.
+    - `utils.ts`: Helper logic (retries, model resolution).
+    - `mcp.ts`: Bridge client for MCP server communication.
 - `data/`: Local storage for the SQLite database (auto-created).
