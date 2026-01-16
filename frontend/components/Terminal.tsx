@@ -1,7 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { TerminalMessage } from '../types';
-import { getFinancialInsight } from '../services/geminiService';
 import { TerminalHeader } from './terminal/TerminalHeader';
 import { TerminalMessages } from './terminal/TerminalMessages';
 import { TerminalInput } from './terminal/TerminalInput';
@@ -15,7 +14,7 @@ const Terminal: React.FC<TerminalProps> = ({ onActivity }) => {
     {
       id: '1',
       role: 'system',
-      content: 'AUREUS Intelligence Terminal v4.0. Connection established. Ready for luxury asset analysis.',
+      content: 'x402-MCP Agent v1.0. Connected to Cronos Testnet. Ready for payment instructions.',
       timestamp: new Date()
     }
   ]);
@@ -45,7 +44,9 @@ const Terminal: React.FC<TerminalProps> = ({ onActivity }) => {
     setIsLoading(true);
     onActivity(true);
 
-    const responseText = await getFinancialInsight(input);
+    // Simulation simulation logic (Inlined)
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    const responseText = `[SIMULATION MODE]\nReceived command: "${input}"\n\n> Executing on Cronos Testnet...\n> Verified signature.\n> Transaction broadcasted successfully.\n\n(To use the real agent, run "npm run agent" in your terminal!)`;
 
     const aiMsg: TerminalMessage = {
       id: (Date.now() + 1).toString(),

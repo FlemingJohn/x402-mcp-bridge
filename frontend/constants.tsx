@@ -11,23 +11,23 @@ export const COLORS = {
 
 export const FEATURES = [
   {
-    icon: <Diamond className="w-6 h-6 text-[#FFD700]" />,
-    title: "Elite Analysis",
-    description: "Deep-dive intelligence for high-net-worth portfolio management."
+    icon: <Zap className="w-6 h-6 text-[#FFD700]" />,
+    title: "Light-Speed Bridge",
+    description: "Instant, low-latency communication between AI agents and the Cronos EVM."
   },
   {
     icon: <ShieldCheck className="w-6 h-6 text-[#FFD700]" />,
-    title: "Secure Insights",
-    description: "End-to-end encrypted financial modeling and forecasting."
+    title: "Militarily Secure",
+    description: "End-to-end encrypted signals with automated transaction verification and revert protection."
   },
   {
-    icon: <Zap className="w-6 h-6 text-[#FFD700]" />,
-    title: "Real-time Edge",
-    description: "Instant market volatility detection and trend mapping."
+    icon: <Briefcase className="w-6 h-6 text-[#FFD700]" />,
+    title: "MCP Standard",
+    description: "Built on the Model Context Protocol for universal compatibility with Claude, Gemini, and OpenAI."
   },
   {
     icon: <Globe className="w-6 h-6 text-[#FFD700]" />,
-    title: "Global Custody",
-    description: "Insights spanning international luxury real estate and commodities."
+    title: "Cronos Native",
+    description: "Deep integration with Cronos Testnet/Mainnet for seamless DeFi interactions."
   }
 ];

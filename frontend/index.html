@@ -1,20 +1,23 @@
-
 <!DOCTYPE html>
 <html lang="en" style="scroll-behavior: smooth;">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AUREUS | Digital Finance Luxury</title>
+    <title>x402-MCP Bridge | AI-Native Payments</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --gold-primary: #FFD700;
             --gold-secondary: #C5A028;
             --matte-black: #090909;
         }
+
         body {
             background-color: var(--matte-black);
             color: #ffffff;
@@ -22,35 +25,46 @@
             margin: 0;
             overflow-x: hidden;
         }
-        h1, h2, h3, .serif {
+
+        h1,
+        h2,
+        h3,
+        .serif {
             font-family: 'Playfair Display', serif;
         }
+
         .gold-gradient {
             background: linear-gradient(135deg, #FFD700 0%, #C5A028 50%, #FFD700 100%);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
         .gold-border {
             border: 1px solid transparent;
             background: linear-gradient(#090909, #090909) padding-box,
-                        linear-gradient(135deg, #FFD700, #C5A028) border-box;
+                linear-gradient(135deg, #FFD700, #C5A028) border-box;
         }
+
         .gold-glow {
             box-shadow: 0 0 15px rgba(197, 160, 40, 0.3);
         }
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
+
         ::-webkit-scrollbar-track {
             background: #090909;
         }
+
         ::-webkit-scrollbar-thumb {
             background: #C5A028;
             border-radius: 4px;
         }
     </style>
-<script type="importmap">
+    <script type="importmap">
 {
   "imports": {
     "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
@@ -61,10 +75,15 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+    <!-- Geometric Gold Chip Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23FFD700'/><stop offset='100%25' stop-color='%23C5A028'/></linearGradient></defs><path d='M50 5 L93 25 L93 75 L50 95 L7 75 L7 25 Z' fill='url(%23g)'/><path d='M50 25 L75 38 L75 63 L50 75 L25 63 L25 38 Z' fill='%23090909'/><circle cx='50' cy='50' r='10' fill='%23FFD700'/></svg>">
+    <link rel="stylesheet" href="/index.css">
 </head>
+
 <body>
     <div id="root"></div>
-<script type="module" src="/index.tsx"></script>
+    <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>

@@ -13,29 +13,22 @@ export const Hero: React.FC<HeroProps> = ({ onTerminalActivity, isTerminalActive
   <div id="intelligence" className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center min-h-[70vh] scroll-mt-24">
     <div className="space-y-8 animate-in fade-in slide-in-from-left duration-1000">
       <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/20 text-[#FFD700] text-[10px] uppercase tracking-widest font-bold">
-        <TrendingUp className="w-3 h-3" /> Digital Finance Luxury
+        <TrendingUp className="w-3 h-3" /> AI-Native Payment Bridge
       </div>
       <h2 className="text-6xl md:text-7xl font-bold leading-tight text-white serif">
-        Master the Art of <span className="gold-gradient">Elite Finance.</span>
+        The Gold Standard of <span className="gold-gradient">AI Payments.</span>
       </h2>
       <p className="text-lg text-silver/60 max-w-lg leading-relaxed">
-        Navigate the complex landscape of luxury assets with AUREUS. AI-driven insights for the discerning investor.
+        Empowering autonomous agents with secure, bridge-less value transfer on Cronos.
       </p>
-      
-      <div className="grid grid-cols-2 gap-4">
-        {[
-          { label: 'Gold Spot', value: '$2,142.30', change: '+1.4%', up: true },
-          { label: 'BTC Prime', value: '$68,231.12', change: '-0.8%', up: false }
-        ].map(stat => (
-          <div key={stat.label} className="p-4 bg-[#111] rounded-xl border border-[#222] group hover:border-[#FFD700]/50 transition-all">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs text-silver/40 uppercase tracking-tighter font-bold">{stat.label}</span>
-              {stat.up ? <ArrowUpRight className="w-4 h-4 text-green-500" /> : <ArrowDownRight className="w-4 h-4 text-red-500" />}
-            </div>
-            <div className="text-2xl font-bold text-white tracking-tight">{stat.value}</div>
-            <div className={`text-[10px] ${stat.up ? 'text-green-500' : 'text-red-500'} font-medium`}>{stat.change} Today</div>
-          </div>
-        ))}
+
+      <div className="flex gap-4">
+        <button className="px-6 py-3 bg-gradient-to-r from-[#FFD700] to-[#C5A028] text-black font-bold rounded-lg hover:shadow-[0_0_20px_rgba(255,215,0,0.3)] transition-all">
+          Deploy Agent
+        </button>
+        <a href="https://github.com/FlemingJohn/x402-mcp-bridge" target="_blank" rel="noopener noreferrer" className="px-6 py-3 border border-[#333] text-white rounded-lg hover:border-[#FFD700] transition-all flex items-center justify-center">
+          View on GitHub
+        </a>
       </div>
     </div>
 

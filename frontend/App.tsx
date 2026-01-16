@@ -5,12 +5,11 @@ import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { Hero } from './components/sections/Hero';
 import { FeaturesGrid } from './components/sections/FeaturesGrid';
-import { MarketBanner } from './components/sections/MarketBanner';
 
 const NAV_LINKS = [
-  { name: 'Intelligence', id: 'intelligence' },
-  { name: 'Portfolio', id: 'portfolio' },
-  { name: 'Treasury', id: 'treasury' }
+  { name: 'Documentation', id: 'docs', href: '#' },
+  { name: 'GitHub', id: 'github', href: 'https://github.com/FlemingJohn/x402-mcp-bridge' },
+  { name: 'Tools', id: 'tools', href: '#features' }
 ];
 
 const App: React.FC = () => {
@@ -22,12 +21,11 @@ const App: React.FC = () => {
       <Navbar activeSection={activeSection} links={NAV_LINKS} />
 
       <main className="flex-1 pt-24 pb-12 px-6">
-        <Hero 
-          onTerminalActivity={setIsTerminalActive} 
-          isTerminalActive={isTerminalActive} 
+        <Hero
+          onTerminalActivity={setIsTerminalActive}
+          isTerminalActive={isTerminalActive}
         />
         <FeaturesGrid />
-        <MarketBanner />
       </main>
 
       <Footer />
